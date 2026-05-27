@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Application\Services\CreditCardBrand;
+
+use App\Application\Commands\V1\CreditCardBrand\CreateCreditCardBrandCommand;
+use App\BandeiraCartao;
+use Illuminate\Support\Collection;
+
+interface CreditCardBrandApplicationServiceInterface
+{
+    public function store(
+        CreateCreditCardBrandCommand $command
+    ): ?BandeiraCartao;
+
+    public function findById(
+        CreateCreditCardBrandCommand $command
+    ): ?BandeiraCartao;
+
+    public function update(
+        CreateCreditCardBrandCommand $command
+    ): void;
+
+    public function destroy(
+        CreateCreditCardBrandCommand $command
+    ): void;
+
+    public function getAll(array $data = []): ?Collection;
+}
