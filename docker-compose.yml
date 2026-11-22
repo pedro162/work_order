@@ -21,6 +21,7 @@ services:
       GID: ${GID:-1001}
     networks:
       - work-order-network
+      - messaging
     depends_on:
       - work_order_db
 
@@ -44,6 +45,9 @@ services:
 networks:
   work-order-network:
     driver: bridge
+  messaging:
+    external: true
+    name: shared_messaging
 
 volumes:
   mysql_data:

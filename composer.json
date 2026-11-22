@@ -10,6 +10,7 @@
         "laravel/passport": "^12.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "php-amqplib/php-amqplib": "^2.8",
         "spatie/laravel-activitylog": "^4.9"
     },
     "require-dev": {
