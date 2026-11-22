@@ -17,8 +17,11 @@ class ApiResponseClass
      * @param integer $code
      * @throws HttpResponseException
      */
-    public static function throw(\Exception $e, $message = 'Something went wrong! Proccess not completed', $code = 500): never
-    {
+    public static function throw(
+        \Exception $e,
+        $message = 'Something went wrong! Proccess not completed',
+        $code = 500
+    ): never {
         Log::info($e);
 
         throw new HttpResponseException(response()->json([
@@ -36,8 +39,11 @@ class ApiResponseClass
      * @param integer $code
      * @return JsonResponse
      */
-    public static function sendRequest($result, $message, $code = 200): JsonResponse
-    {
+    public static function sendRequest(
+        $result,
+        $message,
+        $code = 200
+    ): JsonResponse {
         $response = [
             'success' => true,
             'data' => $result,

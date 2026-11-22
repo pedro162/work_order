@@ -2,15 +2,9 @@
 
 namespace App\Providers;
 
-use App\Application\Handlers\V1\CreatePersonHandler;
-use App\Application\Handlers\V1\InfoPersonHandler;
-use App\Application\Services\PersonApplicationService;
-use App\Domain\V1\Person\Repositories\PersonRepositoryInterface;
-use App\Infrastructure\Persistence\EloquentPersonRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
-
 
 class AppServiceProvider extends ServiceProvider
 {

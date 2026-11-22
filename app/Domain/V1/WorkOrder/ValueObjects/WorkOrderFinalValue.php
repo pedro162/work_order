@@ -4,7 +4,9 @@ namespace App\Domain\V1\WorkOrder\ValueObjects;
 
 class WorkOrderFinalValue
 {
-    public function __construct(private float $value) {}
+    public function __construct(private float $value)
+    {
+    }
 
     public function toFloat(): float
     {

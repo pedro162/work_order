@@ -1,20 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Handlers\V1\WorkOrder;
 
-use App\Application\Commands\V1\WorkOrder\CreateWorkOrderCommand;
-use App\Domain\V1\WorkOrder\Entities\WorkOrder;
 use App\Domain\V1\WorkOrder\Repositories\WorkOrderRepositoryInterface;
-use App\OrdemServico as WorkOrderModel;
+use App\Domain\V1\WorkOrder\Entities\WorkOrder;
+use App\Application\Commands\V1\WorkOrder\CreateWorkOrderCommand;
 
-class CreateWorkOrderHandler
+final class CreateWorkOrderHandler
 {
-    public function __construct(private WorkOrderRepositoryInterface $repository) {}
+    public function __construct(
+        private readonly WorkOrderRepositoryInterface $repository
+    ) {
+    }
 
-    public function handler(CreateWorkOrderCommand $command): ?WorkOrderModel
+    public function handler(CreateWorkOrderCommand $command): WorkOrder
     {
         $entity = WorkOrder::buildEntity($command->getDataProperties());
-
         return $this->repository->save($entity);
     }
 }

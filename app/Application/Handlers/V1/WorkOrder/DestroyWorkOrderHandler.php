@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Handlers\V1\WorkOrder;
 
-use App\Application\Commands\V1\WorkOrder\CreateWorkOrderCommand;
-use App\Domain\V1\WorkOrder\Entities\WorkOrder;
 use App\Domain\V1\WorkOrder\Repositories\WorkOrderRepositoryInterface;
+use App\Domain\V1\WorkOrder\ValueObjects\WorkOrderId;
+use App\Application\Commands\V1\WorkOrder\DeleteWorkOrderCommand;
 
-class DestroyWorkOrderHandler
+final class DestroyWorkOrderHandler
 {
-    public function __construct(private WorkOrderRepositoryInterface $repository) {}
+    public function __construct(
+        private readonly WorkOrderRepositoryInterface $repository
+    ) {
+    }
 
-    public function handler(CreateWorkOrderCommand $command): void
+    public function handler(DeleteWorkOrderCommand $command): void
     {
-        $entity = WorkOrder::buildEntity($command->getDataProperties());
-        $this->repository->destroy($entity);
+        $this->repository->destroy(new WorkOrderId((string) $command->getId()));
     }
 }

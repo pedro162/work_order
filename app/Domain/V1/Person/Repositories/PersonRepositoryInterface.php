@@ -3,19 +3,24 @@
 namespace App\Domain\V1\Person\Repositories;
 
 use App\Domain\V1\Person\Entities\Person;
-use App\Domain\V1\Person\ValueObjects\PersonDocument;
 use App\Domain\V1\Person\ValueObjects\PersonId;
-use App\Pessoa;
+use App\Domain\V1\Shared\Pagination\PaginatedResult;
+use App\Domain\V1\Shared\Pagination\PaginationParams;
 
 interface PersonRepositoryInterface
 {
-    public function save(Person $task): ?Pessoa;
-    public function findById(PersonId $id): ?Pessoa;
-    public function findByDocument(PersonDocument $document): ?Pessoa;
-    public function getAll(array $filter = []): ?array;
-    public function update(Person $parameter): void;
-    public function destroy(Person $parameter): void;
-    public function syncGroupe(int $personId, int $groupId, array $data = []): void;
-    public function syncAddress(int $personId, int $addressId, array $data = []): void;
-    public function deletePhones(int $personId, array $data = []): void;
+    public function save(Person $entity): Person;
+    public function findById(PersonId $id): ?Person;
+    /** @return array<Person> */
+    public function getAll(array $filters = [], int $limit = 50): array;
+    public function update(Person $entity): Person;
+    public function destroy(PersonId $id): void;
+
+    /**
+     * @return PaginatedResult<Person>
+     */
+    public function paginate(
+        PaginationParams $pagination,
+        array $filters = []
+    ): PaginatedResult;
 }

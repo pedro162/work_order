@@ -1,22 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\V1\Person\ValueObjects;
 
-class PersonType
+use App\Domain\V1\Shared\ValueObjects\PrimitiveValue;
+
+final readonly class PersonType extends PrimitiveValue
 {
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        if (!(isset($value) && strlen(trim($value)) > 0)) {
-            throw new \InvalidArgumentException('Person type cannot be empty');
-        }
-
-        $this->value = $value;
-    }
-
-    public function __toString()
-    {
-        return $this->value;
-    }
 }

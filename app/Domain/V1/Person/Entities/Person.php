@@ -1,230 +1,169 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\V1\Person\Entities;
 
-use App\Domain\V1\BaseEntity\Entities\BaseEntity;
+use App\Domain\V1\BaseEntity\Entities\TenantAwareEntity;
 use App\Domain\V1\BaseEntity\ValueObjects\BaseEntityTenantId;
 use App\Domain\V1\BaseEntity\ValueObjects\BaseEntityUserId;
-use App\Domain\V1\Person\ValueObjects\PersonBirthOrFoundation;
-use App\Domain\V1\Person\ValueObjects\PersonDocument;
-use App\Domain\V1\Person\ValueObjects\PersonEmail;
-use App\Domain\V1\Person\ValueObjects\PersonExtraDocument;
 use App\Domain\V1\Person\ValueObjects\PersonId;
-use App\Domain\V1\Person\ValueObjects\PersonName;
+use App\Domain\V1\Person\ValueObjects\PersonFirstName;
+use App\Domain\V1\Person\ValueObjects\PersonLastName;
 use App\Domain\V1\Person\ValueObjects\PersonOptionalName;
-use App\Domain\V1\Person\ValueObjects\PersonSex;
+use App\Domain\V1\Person\ValueObjects\PersonDocument;
+use App\Domain\V1\Person\ValueObjects\PersonExtraDocument;
+use App\Domain\V1\Person\ValueObjects\PersonBirthDate;
+use App\Domain\V1\Person\ValueObjects\PersonGender;
 use App\Domain\V1\Person\ValueObjects\PersonType;
-use App\Pessoa;
 
-class Person extends BaseEntity
+final class Person extends TenantAwareEntity
 {
-    protected PersonId $id;
-    protected PersonName $name;
-    protected PersonOptionalName $optionalName;
-    protected PersonDocument $document;
-    protected PersonExtraDocument $extraDocument;
-    protected PersonEmail $email;
-    protected PersonSex $sex;
-    protected PersonBirthOrFoundation $birthOrFoundation;
-    protected PersonType $type;
+    protected ?PersonId $id = null;
+    protected ?PersonFirstName $firstName = null;
+    protected ?PersonLastName $lastName = null;
+    protected ?PersonOptionalName $optionalName = null;
+    protected ?PersonDocument $document = null;
+    protected ?PersonExtraDocument $extraDocument = null;
+    protected ?PersonBirthDate $birthDate = null;
+    protected ?PersonGender $gender = null;
+    protected ?PersonType $type = null;
 
-    public function setId(PersonId $id): void
+    public function id(PersonId $value): static
     {
-        $this->id = $id;
-    }
+        $this->id = $value;
 
-    public function id(PersonId $id): Person
-    {
-        $this->id = $id;
         return $this;
     }
 
     public function getId(): ?PersonId
     {
-        return $this->id ?? null;
+        return $this->id;
     }
 
-    public function setType(PersonType $type): void
+    public function firstName(PersonFirstName $value): static
     {
-        $this->type = $type;
-    }
+        $this->firstName = $value;
 
-    public function type(PersonType $type): Person
-    {
-        $this->type = $type;
         return $this;
     }
 
-    public function getType(): ?PersonType
+    public function getFirstName(): ?PersonFirstName
     {
-        return $this->type ?? null;
+        return $this->firstName;
     }
 
-    public function setBirthOrFoundation(PersonBirthOrFoundation $birthOrFoundation): void
+    public function lastName(PersonLastName $value): static
     {
-        $this->birthOrFoundation = $birthOrFoundation;
-    }
+        $this->lastName = $value;
 
-    public function birthOrFoundation(PersonBirthOrFoundation $birthOrFoundation): Person
-    {
-        $this->birthOrFoundation = $birthOrFoundation;
         return $this;
     }
 
-    public function getBirthOrFoundation(): ?PersonBirthOrFoundation
+    public function getLastName(): ?PersonLastName
     {
-        return $this->birthOrFoundation ?? null;
+        return $this->lastName;
     }
 
-    public function setName(PersonName $name): void
+    public function optionalName(PersonOptionalName $value): static
     {
-        $this->name = $name;
-    }
+        $this->optionalName = $value;
 
-    public function name(PersonName $name): Person
-    {
-        $this->name = $name;
         return $this;
-    }
-
-    public function getName(): ?PersonName
-    {
-        return $this->name ?? null;
-    }
-
-    public function setOptionalName(PersonOptionalName $optionalName): void
-    {
-        $this->optionalName = $optionalName;
     }
 
     public function getOptionalName(): ?PersonOptionalName
     {
-        return $this->optionalName ?? null;
+        return $this->optionalName;
     }
 
-    public function optionalName(PersonOptionalName $optionalName): Person
+    public function document(PersonDocument $value): static
     {
-        $this->optionalName = $optionalName;
-        return $this;
-    }
+        $this->document = $value;
 
-    public function setDocument(PersonDocument $document): void
-    {
-        $this->document = $document;
-    }
-
-    public function document(PersonDocument $document): Person
-    {
-        $this->document = $document;
         return $this;
     }
 
     public function getDocument(): ?PersonDocument
     {
-        return $this->document ?? null;
+        return $this->document;
     }
 
-    public function setExtraDocument(PersonExtraDocument $extraDocument): void
+    public function extraDocument(PersonExtraDocument $value): static
     {
-        $this->extraDocument = $extraDocument;
-    }
+        $this->extraDocument = $value;
 
-    public function extraDocument(PersonExtraDocument $extraDocument): Person
-    {
-        $this->extraDocument = $extraDocument;
         return $this;
     }
 
     public function getExtraDocument(): ?PersonExtraDocument
     {
-        return $this->extraDocument ?? null;
+        return $this->extraDocument;
     }
 
-    public function setEmail(PersonEmail $email): void
+    public function birthDate(PersonBirthDate $value): static
     {
-        $this->email = $email;
-    }
+        $this->birthDate = $value;
 
-    public function email(PersonEmail $email): Person
-    {
-        $this->email = $email;
         return $this;
     }
 
-    public function getEmail(): ?PersonEmail
+    public function getBirthDate(): ?PersonBirthDate
     {
-        return $this->email ?? null;
+        return $this->birthDate;
     }
 
-    public function setSex(PersonSex $sex): void
+    public function gender(PersonGender $value): static
     {
-        $this->sex = $sex;
-    }
+        $this->gender = $value;
 
-    public function sex(PersonSex $sex): Person
-    {
-        $this->sex = $sex;
         return $this;
     }
 
-    public function getSex(): PersonSex
+    public function getGender(): ?PersonGender
     {
-        return $this->sex;
+        return $this->gender;
     }
 
-    public static function buildEntity(array $data): Person
+    public function type(PersonType $value): static
     {
-        $entity = (new self());
+        $this->type = $value;
+
+        return $this;
+    }
+
+    public function getType(): ?PersonType
+    {
+        return $this->type;
+    }
+
+    /** Constrói a entidade de domínio a partir de dados primitivos (sem Eloquent). */
+    public static function buildEntity(array $data): self
+    {
+        $entity = new self();
+
         $mapping = [
-            ['keys' => ['id'], 'callback' => fn($value) => $entity->id(new PersonId($value))],
-            ['keys' => ['name'], 'callback' => fn($value) => $entity->name(new PersonName((string)$value))],
-            ['keys' => ['name_opcional', 'optionalName'], 'callback' => fn($value) => $entity->optionalName(new PersonOptionalName((string)$value))],
-            ['keys' => ['documento', 'document'], 'callback' => fn($value) => $entity->document(new PersonDocument((string)$value))],
-            ['keys' => ['documento_complementar', 'extraDocument'], 'callback' => fn($value) => $entity->extraDocument(new PersonExtraDocument((string)$value))],
-            ['keys' => ['nascimento_fundacao', 'birthOrFoundation'], 'callback' => fn($value) => $entity->birthOrFoundation(new PersonBirthOrFoundation((string)$value))],
-            ['keys' => ['email'], 'callback' => fn($value) => $entity->email(new PersonEmail((string)$value))],
-            ['keys' => ['sex', 'sexo'], 'callback' => fn($value) => $entity->sex(new PersonSex((string)$value))],
-            ['keys' => ['type'], 'callback' => fn($value) => $entity->type(new PersonType((string)$value))],
-            ['keys' => ['active'], 'callback' => fn($value) => $entity->active((string)$value)],
-            ['keys' => ['userId', 'user_id'], 'callback' => fn($value) => $entity->userId(new BaseEntityUserId((string)$value))],
-            ['keys' => ['userUpdateId', 'user_update_id'], 'callback' => fn($value) => $entity->userUpdateId(new BaseEntityUserId((string)$value))],
-            ['keys' => ['tenantId', 'tenant_id'], 'callback' => fn($value) => $entity->tenantId(new BaseEntityTenantId((string)$value))],
+            'id' => fn ($value) => $entity->id(new PersonId((int) $value)),
+            'first_name' => fn ($value) => $entity->firstName(new PersonFirstName((string) $value)),
+            'last_name' => fn ($value) => $entity->lastName(new PersonLastName((string) $value)),
+            'optional_name' => fn ($value) => $entity->optionalName(new PersonOptionalName((string) $value)),
+            'document' => fn ($value) => $entity->document(new PersonDocument((string) $value)),
+            'extra_document' => fn ($value) => $entity->extraDocument(new PersonExtraDocument((string) $value)),
+            'birth_date' => fn ($value) => $entity->birthDate(new PersonBirthDate((string) $value)),
+            'gender' => fn ($value) => $entity->gender(new PersonGender((string) $value)),
+            'type' => fn ($value) => $entity->type(new PersonType((string) $value)),
+            'tenant_id' => fn ($value) => $entity->tenantId(new BaseEntityTenantId((string) $value)),
+            'user_id' => fn ($value) => $entity->userId(new BaseEntityUserId((int) $value)),
+            'user_update_id' => fn ($value) => $entity->userUpdateId(new BaseEntityUserId((int) $value)),
+            'active' => fn ($value) => $entity->active((bool) $value),
         ];
 
-        foreach ($mapping as $map) {
-            foreach ($map['keys'] as $key) {
-                if (isset($data[$key])) {
-                    $map['callback']($data[$key]);
-                    break;
-                }
+        foreach ($mapping as $key => $setter) {
+            if (array_key_exists($key, $data) && $data[$key] !== null) {
+                $setter($data[$key]);
             }
         }
 
         return $entity;
-    }
-
-    public function build(): Pessoa
-    {
-        $data = [
-            'id' => isset($this->id) ? (string)$this->id : null,
-            'name' => isset($this->name) ? (string)$this->name : null,
-            'name_opcional' => isset($this->optionalName) ? (string)$this->optionalName : null,
-            'documento' => isset($this->document) ? (string)$this->document : null,
-            'documento_complementar' => isset($this->extraDocument) ? (string)$this->extraDocument : null,
-            'email' => isset($this->email) ? (string)$this->email : null,
-            'nascimento_fundacao' => isset($this->birthOrFoundation) ? (string)$this->birthOrFoundation : null,
-            'sexo' => isset($this->sex) ? (string) $this->sex : null,
-            'tipo' => isset($this->type) ? (string)$this->type : null,
-            'tenant_id' => isset($this->tenantId) ? (string)$this->tenantId : null,
-            'active' => isset($this->active) ? (string)$this->active : null,
-            'user_id' => isset($this->userId) ? (string)$this->userId : null,
-            'user_update_id' => isset($this->userUpdateId) ? (string)$this->userUpdateId : null,
-        ];
-
-        $data = array_filter($data, function ($value) {
-            return $value !== null;
-        });
-
-        return new Pessoa($data);
     }
 }

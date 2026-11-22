@@ -3,7 +3,6 @@
 namespace App\Services\V1\Payments;
 
 use App\Infrastructure\Repository\Eloquent\Transaction\TransactionRepository;
-use App\Models\Transaction;
 use App\Infrastructure\Services\V1\Adapters\PaymentGatewayAdapter;
 use Illuminate\Support\Str;
 

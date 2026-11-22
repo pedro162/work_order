@@ -1,18 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Handlers\V1\WorkOrder;
 
-use App\Application\Commands\V1\WorkOrder\CreateWorkOrderCommand;
 use App\Domain\V1\WorkOrder\Repositories\WorkOrderRepositoryInterface;
+use App\Domain\V1\WorkOrder\Entities\WorkOrder;
 use App\Domain\V1\WorkOrder\ValueObjects\WorkOrderId;
-use App\OrdemServico as WorkOrderModel;
 
-class GetWorkOrderByIdHandler
+final class GetWorkOrderByIdHandler
 {
-    public function __construct(private WorkOrderRepositoryInterface $repository) {}
+    public function __construct(
+        private readonly WorkOrderRepositoryInterface $repository
+    ) {
+    }
 
-    public function handler(CreateWorkOrderCommand $command): ?WorkOrderModel
+    public function handler(int $id): ?WorkOrder
     {
-        return $this->repository->findById(new WorkOrderId($command->getId()));
+        return $this->repository->findById(new WorkOrderId((string) $id));
     }
 }

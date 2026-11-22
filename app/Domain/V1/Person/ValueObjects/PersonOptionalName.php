@@ -1,18 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\V1\Person\ValueObjects;
 
-class PersonOptionalName
+use App\Domain\V1\Shared\ValueObjects\PrimitiveValue;
+
+final readonly class PersonOptionalName extends PrimitiveValue
 {
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        $this->value = $value;
-    }
-
-    public function __toString()
-    {
-        return $this->value;
-    }
 }

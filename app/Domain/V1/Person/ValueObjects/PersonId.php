@@ -1,21 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Domain\V1\Person\ValueObjects;
 
-class PersonId
+use App\Domain\V1\Shared\ValueObjects\PositiveId;
+
+final readonly class PersonId extends PositiveId
 {
-    private string $value;
-
-    public function __construct(string $value)
-    {
-        if (!(isset($value) && strlen(trim($value)) > 0)) {
-            throw new \InvalidArgumentException('Person ID cannot be empty');
-        }
-        $this->value = $value;
-    }
-
-    public function __toString()
-    {
-        return $this->value;
-    }
 }

@@ -2,19 +2,29 @@
 
 namespace App\Domain\V1\WorkOrder\Repositories;
 
+use App\Domain\V1\Shared\Pagination\PaginatedResult;
+use App\Domain\V1\Shared\Pagination\PaginationParams;
 use App\Domain\V1\WorkOrder\Entities\WorkOrder;
 use App\Domain\V1\WorkOrder\ValueObjects\WorkOrderId;
-use App\OrdemServico;
 
 interface WorkOrderRepositoryInterface
 {
-    public function save(WorkOrder $parameter): ?OrdemServico;
+    public function save(WorkOrder $entity): WorkOrder;
 
-    public function findById(WorkOrderId $id): ?OrdemServico;
+    public function findById(WorkOrderId $id): ?WorkOrder;
 
-    public function getAll(array $filter): ?array;
+    /** @return array<WorkOrder> */
+    public function getAll(array $filters = [], int $limit = 50): array;
 
-    public function update(WorkOrder $parameter): void;
+    public function update(WorkOrder $entity): WorkOrder;
 
-    public function destroy(WorkOrder $parameter): void;
+    public function destroy(WorkOrderId $id): void;
+
+    /**
+     * @return PaginatedResult<WorkOrder>
+     */
+    public function paginate(
+        PaginationParams $pagination,
+        array $filters = []
+    ): PaginatedResult;
 }

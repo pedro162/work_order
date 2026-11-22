@@ -5,31 +5,23 @@ namespace App\Models;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkOrderItem extends Model
 {
+    use HasFactory;
     use SoftDeletes;
     use BelongsToTenant;
 
-    protected $attributeAliases = [
-        'quantity' => 'qtd',
-        'service_id' => 'servico_id',
-        'gross_item_amount' => 'vrItemBruto',
-        'total_amount' => 'vrTotal',
-        'item_amount' => 'vrItem',
-        'work_order_id' => 'ordem_servico_id',
-        'final_amount' => 'vr_final',
-        'discount_amount' => 'vr_desconto',
-        'surcharge_percentage' => 'pct_acrescimo',
-        'surcharge_amount' => 'vr_acrescimo',
-        'discount_percentage' => 'pct_desconto',
-    ];
+    protected $table = 'work_order_items';
 
-    protected $table = 'servico_items';
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'quantity',
-        'service_id',
+        'external_code',
+        'service_name',
         'gross_item_amount',
         'total_amount',
         'item_amount',
@@ -42,43 +34,31 @@ class WorkOrderItem extends Model
         'surcharge_percentage',
         'surcharge_amount',
         'discount_percentage',
-        'tenant_id'
+        'tenant_id',
     ];
 
-    public function fill(array $attributes)
+    protected function casts(): array
     {
-        return parent::fill($this->normalizeFillableAttributes($attributes));
+        return [
+            'quantity' => 'decimal:3',
+            'gross_item_amount' => 'decimal:2',
+            'total_amount' => 'decimal:2',
+            'item_amount' => 'decimal:2',
+            'final_amount' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
+            'surcharge_percentage' => 'decimal:4',
+            'surcharge_amount' => 'decimal:2',
+            'discount_percentage' => 'decimal:4',
+            'active' => 'boolean',
+        ];
     }
 
-    public function getAttribute($key)
+    public function workOrder(): BelongsTo
     {
-        return parent::getAttribute($this->attributeAliases[$key] ?? $key);
-    }
-
-    public function setAttribute($key, $value)
-    {
-        return parent::setAttribute($this->attributeAliases[$key] ?? $key, $value);
-    }
-
-    protected function normalizeFillableAttributes(array $attributes): array
-    {
-        $legacyToEnglish = array_flip($this->attributeAliases);
-
-        $normalizedAttributes = [];
-
-        foreach ($attributes as $key => $value) {
-            $normalizedAttributes[$legacyToEnglish[$key] ?? $key] = $value;
-        }
-
-        return $normalizedAttributes;
-    }
-
-    public function workOrder()
-    {
-        return $this->belongsTo(WorkOrder::class, 'ordem_servico_id', 'id');
-    }
-    public function service()
-    {
-        return $this->belongsTo(Service::class, 'servico_id', 'id');
+        return $this->belongsTo(
+            WorkOrder::class,
+            'work_order_id',
+            'id'
+        );
     }
 }

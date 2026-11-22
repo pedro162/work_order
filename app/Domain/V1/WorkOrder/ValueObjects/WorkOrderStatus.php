@@ -4,7 +4,9 @@ namespace App\Domain\V1\WorkOrder\ValueObjects;
 
 class WorkOrderStatus
 {
-    public function __construct(private string $value) {}
+    public function __construct(private string $value)
+    {
+    }
 
     public function __toString(): string
     {

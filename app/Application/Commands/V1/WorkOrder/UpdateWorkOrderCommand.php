@@ -1,90 +1,130 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Commands\V1\WorkOrder;
 
-class UpdateWorkOrderCommand
+use App\Application\Commands\V1\BaseUpdateCommand;
+
+final class UpdateWorkOrderCommand extends BaseUpdateCommand
 {
-    protected ?string $id = null;
-    protected ?string $tenantId = null;
-    protected ?string $userUpdateId = null;
-    protected ?string $active = null;
-
-    public function id(string $id): self
+    protected static function fields(): array
     {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function tenantId(string $tenantId): self
-    {
-        $this->tenantId = $tenantId;
-        return $this;
-    }
-
-    public function userUpdateId(string $userUpdateId): self
-    {
-        $this->userUpdateId = $userUpdateId;
-        return $this;
-    }
-
-    public function active(string $active): self
-    {
-        $this->active = $active;
-        return $this;
-    }
-
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
-
-    public function getTenantId(): ?string
-    {
-        return $this->tenantId;
-    }
-
-    public function getUserUpdateId(): ?string
-    {
-        return $this->userUpdateId;
-    }
-
-    public function getActive(): ?string
-    {
-        return $this->active;
-    }
-
-    public static function build(array $data): self
-    {
-        $entity = new self();
-
-        $mapping = [
-            ['keys' => ['id'], 'callback' => fn($v) => $entity->id((string)$v)],
-            ['keys' => ['tenantId', 'tenant_id'], 'callback' => fn($v) => $entity->tenantId((string)$v)],
-            ['keys' => ['userUpdateId', 'user_update_id'], 'callback' => fn($v) => $entity->userUpdateId((string)$v)],
-            ['keys' => ['active'], 'callback' => fn($v) => $entity->active((string)$v)],
+        return [
+            'external_code' => 'string',
+            'total_amount' => 'decimal',
+            'status' => 'string',
+            'notes' => 'string',
+            'file_path' => 'string',
+            'person_id' => 'int',
+            'active' => 'bool',
+            'final_amount' => 'decimal',
+            'discount_amount' => 'decimal',
+            'surcharge_percentage' => 'decimal',
+            'surcharge_amount' => 'decimal',
+            'discount_percentage' => 'decimal',
+            'is_billed' => 'bool',
+            'billed_at' => 'string',
+            'canceled_at' => 'string',
+            'completed_at' => 'string',
+            'cancel_reason' => 'string',
+            'type' => 'string',
+            'is_quote' => 'bool',
         ];
-
-        foreach ($mapping as $map) {
-            foreach ($map['keys'] as $key) {
-                if (isset($data[$key])) {
-                    $map['callback']($data[$key]);
-                    break;
-                }
-            }
-        }
-
-        return $entity;
     }
 
-    public function getDataProperties(): array
+    public function externalCode(string $value): static
     {
-        $data = [
-            'id' => (string)($this->id ?? ''),
-            'tenantId' => (string)($this->tenantId ?? ''),
-            'userUpdateId' => (string)($this->userUpdateId ?? ''),
-            'active' => (string)($this->active ?? ''),
-        ];
+        return $this->assign('external_code', $value);
+    }
 
-        return array_filter($data, fn($v) => $v !== '' && $v !== null);
+    public function totalAmount(string $value): static
+    {
+        return $this->assign('total_amount', $value);
+    }
+
+    public function status(string $value): static
+    {
+        return $this->assign('status', $value);
+    }
+
+    public function notes(string $value): static
+    {
+        return $this->assign('notes', $value);
+    }
+
+    public function filePath(string $value): static
+    {
+        return $this->assign('file_path', $value);
+    }
+
+    public function personId(int $value): static
+    {
+        return $this->assign('person_id', $value);
+    }
+
+    public function active(bool $value): static
+    {
+        return $this->assign('active', $value);
+    }
+
+    public function finalAmount(string $value): static
+    {
+        return $this->assign('final_amount', $value);
+    }
+
+    public function discountAmount(string $value): static
+    {
+        return $this->assign('discount_amount', $value);
+    }
+
+    public function surchargePercentage(string $value): static
+    {
+        return $this->assign('surcharge_percentage', $value);
+    }
+
+    public function surchargeAmount(string $value): static
+    {
+        return $this->assign('surcharge_amount', $value);
+    }
+
+    public function discountPercentage(string $value): static
+    {
+        return $this->assign('discount_percentage', $value);
+    }
+
+    public function isBilled(bool $value): static
+    {
+        return $this->assign('is_billed', $value);
+    }
+
+    public function billedAt(string $value): static
+    {
+        return $this->assign('billed_at', $value);
+    }
+
+    public function canceledAt(string $value): static
+    {
+        return $this->assign('canceled_at', $value);
+    }
+
+    public function completedAt(string $value): static
+    {
+        return $this->assign('completed_at', $value);
+    }
+
+    public function cancelReason(string $value): static
+    {
+        return $this->assign('cancel_reason', $value);
+    }
+
+    public function type(string $value): static
+    {
+        return $this->assign('type', $value);
+    }
+
+    public function isQuote(bool $value): static
+    {
+        return $this->assign('is_quote', $value);
     }
 }

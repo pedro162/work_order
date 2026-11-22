@@ -17,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# PHPUnit / Code Coverage
+/coverage/
+/.phpunit.cache/
+/.phpunit.result.cache
